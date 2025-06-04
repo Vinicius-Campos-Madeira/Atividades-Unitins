@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Bucar cep</h1><br><br>
+    <b><label>Digite um cep ou endereço:</label>
+    <input id="cepnumero"> <br><br>
+    <button onclick="consultarCep()">Buscar</button>
+    <div id="resultadoCep"></div>
+<script>
+    function consultarCep() {
+        const cep = document.getElementById("cepnumero").value;
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => response.json())
+            .then(dados => {
+                document.getElementById("resultadoCep").innerHTML = `
+                <h2>Resultado da Consulta</h2>
+                <table border="1">
+                    <tr><td><b>CEP:</b> ${dados.cep}<br>
+                    <tr><td><b>Logradouro:</b> ${dados.logradouro}
+                    <tr><td><b>Complemento:</b> ${dados.complemento}
+                    <tr><td><b>Bairro:</b> ${dados.bairro}
+                    <tr><td><b>Cidade:</b> ${dados.localidade}
+                    <tr><td><b>UF:</b> ${dados.uf}
+                `;
+            })
+            .catch(erro => {
+                document.getElementById("resultadoCep").innerText = "Erro ao consultar o CEP.";
+            });
+    }
+</script>
+</body>
+</html>
